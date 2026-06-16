@@ -2,6 +2,7 @@ import { PDFParse } from "pdf-parse";
 import { generateEmbedding } from "../services/embeddingService.js";
 import { getCollection } from "../services/chromaService.js";
 import crypto from "crypto";
+import fs from "node:fs/promises";
 
 class ResumeModel {
   async extractPdfText(filePath) {
@@ -11,6 +12,7 @@ class ResumeModel {
       });
 
       const result = await parser.getText();
+      await fs.unlink(filePath);
 
       return result.text;
     } catch (e) {
