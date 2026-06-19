@@ -8,6 +8,7 @@ function App() {
   const [searchtresult, setSearchResult] = useState([]);
   const [question, setQuestion] = useState("");
   const [questionAnswer, setQuestionAnswer] = useState(null);
+  const [documentType, setDocumentType] = useState("resume");
 
   const uploadResume = async (e) => {
     const urlTarget = e.target.dataset.info;
@@ -21,6 +22,7 @@ function App() {
     const formData = new FormData();
     setStatusText(" ");
     formData.append("resume", file);
+    formData.append("documentType", documentType);
     try {
       const response = await axios.post(url, formData);
 
@@ -70,6 +72,14 @@ function App() {
       <button data-info="pdf-chat" onClick={uploadResume}>
         upload resume and pdf chat with rag
       </button>
+      <select
+        value={documentType}
+        onChange={(e) => setDocumentType(e.target.value)}
+      >
+        <option value="resume">Resume</option>
+
+        <option value="jd">JD</option>
+      </select>
       <input
         type="text"
         value={query}

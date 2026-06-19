@@ -25,7 +25,13 @@ class ResumeModel {
     return embedding;
   }
 
-  async storeEmbeddings(embedding, filename, text, pageNumber) {
+  async storeEmbeddings(
+    embedding,
+    filename,
+    text,
+    pageNumber = 1,
+    documentType,
+  ) {
     try {
       console.log("pagenumber is:", pageNumber);
       const uniqueId = crypto.randomUUID();
@@ -43,6 +49,7 @@ class ResumeModel {
             source: filename,
 
             page: pageNumber,
+            documentType,
           },
         ],
         documents: [text],
@@ -67,6 +74,9 @@ class ResumeModel {
 
       const results = await collection.query({
         queryEmbeddings: [queryEmbedding],
+        where: {
+          documentType: "resume",
+        },
         nResults: 5,
       });
       console.log(results);

@@ -26,6 +26,7 @@ export const uploadAndChunk = async (req, res) => {
           req.file.originalname,
           chunk.pageContent,
           chunk.metadata.pageNumber,
+          req.body.documentType,
         );
       }
 
