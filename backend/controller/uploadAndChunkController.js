@@ -14,6 +14,7 @@ export const uploadAndChunk = async (req, res) => {
       const chunks = await chunkText(pdfText);
       //generate embedding per text and save to chroma
       for (const chunk of chunks) {
+        console.log("chunk metadata", chunk.metadata);
         const embedding = await ResumeModel.generateEmbeddingFromText(
           chunk.pageContent,
         );
@@ -24,6 +25,7 @@ export const uploadAndChunk = async (req, res) => {
           embedding,
           req.file.originalname,
           chunk.pageContent,
+          chunk.metadata.pageNumber,
         );
       }
 

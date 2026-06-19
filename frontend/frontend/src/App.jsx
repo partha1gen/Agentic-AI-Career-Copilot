@@ -99,9 +99,12 @@ function App() {
       {questionAnswer && <div>{questionAnswer.answer}</div>}
       {questionAnswer && (
         <ul>
-          {questionAnswer.sources.map((item) => {
-            return <li>{item.fileName}</li>;
-          })}
+          {questionAnswer.sources.map((item) => (
+            <li>
+              {item.source}
+              <li>page:{item.page}</li>
+            </li>
+          ))}
         </ul>
       )}
     </>

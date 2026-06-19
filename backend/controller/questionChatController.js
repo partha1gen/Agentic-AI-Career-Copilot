@@ -13,12 +13,17 @@ export const questionChat = async (req, res) => {
     true,
   );
   console.log("results:,,,,--", serachResults);
+  //source attribution
+  const sources = serachResults.metadatas[0].map((item) => ({
+    source: item.source,
+    page: item.page,
+  }));
   //build context
   const context = serachResults.documents[0].join("\n");
   const response = await ragAnalyzer(context, searchText);
   // return res.status(200).json({ serachResults });
   return res.status(200).json({
     answer: response.choices[0].message.content,
-    sources: serachResults.metadatas[0],
+    sources,
   });
 };

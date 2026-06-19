@@ -25,8 +25,9 @@ class ResumeModel {
     return embedding;
   }
 
-  async storeEmbeddings(embedding, filename, text) {
+  async storeEmbeddings(embedding, filename, text, pageNumber) {
     try {
+      console.log("pagenumber is:", pageNumber);
       const uniqueId = crypto.randomUUID();
 
       const collection = await getCollection();
@@ -38,7 +39,10 @@ class ResumeModel {
         embeddings: [embedding],
         metadatas: [
           {
-            fileName: filename,
+            //fileName: filename,
+            source: filename,
+
+            page: pageNumber,
           },
         ],
         documents: [text],
