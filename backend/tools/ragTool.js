@@ -4,7 +4,7 @@ import { generateEmbedding } from "../services/embeddingService.js";
 
 export async function searchDocuments(question) {
   const collection = await getCollection();
-
+  s;
   const queryEmbedding = await generateEmbedding(question);
 
   const result = await collection.query({
