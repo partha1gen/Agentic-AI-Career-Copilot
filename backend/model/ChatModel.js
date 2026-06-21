@@ -22,7 +22,7 @@ class ChatModel {
     });
     //store in mongodb
     const sessionId = this.id;
-    console.log("history is", this.history);
+
     await Chat.findOneAndUpdate(
       { sessionId },
 
