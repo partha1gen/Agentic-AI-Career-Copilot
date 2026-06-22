@@ -1,33 +1,54 @@
 export const tools = [
   {
     type: "function",
-
     function: {
-      name: "searchDocuments",
-
-      description: "Retrieve candidate and job skills",
-
+      name: "searchResume",
+      description: "Get candidate resume content",
       parameters: {
         type: "object",
-
-        properties: {
-          question: {
-            type: "string",
-          },
-        },
-
-        required: ["question"],
+        properties: {},
       },
     },
   },
 
   {
     type: "function",
+    function: {
+      name: "searchJobDescription",
+      description: "Get job description content",
+      parameters: {
+        type: "object",
+        properties: {},
+      },
+    },
+  },
 
+  {
+    type: "function",
+    function: {
+      name: "extractSkills",
+      description: "Extract skills from text",
+
+      parameters: {
+        type: "object",
+
+        properties: {
+          text: {
+            type: "string",
+          },
+        },
+
+        required: ["text"],
+      },
+    },
+  },
+
+  {
+    type: "function",
     function: {
       name: "findSkillGap",
 
-      description: "Compare candidate skills and required skills",
+      description: "Find missing skills",
 
       parameters: {
         type: "object",
@@ -49,6 +70,30 @@ export const tools = [
         },
 
         required: ["candidateSkills", "requiredSkills"],
+      },
+    },
+  },
+
+  {
+    type: "function",
+    function: {
+      name: "generateLearningPlan",
+
+      description: "Create learning plan from missing skills",
+
+      parameters: {
+        type: "object",
+
+        properties: {
+          missingSkills: {
+            type: "array",
+            items: {
+              type: "string",
+            },
+          },
+        },
+
+        required: ["missingSkills"],
       },
     },
   },

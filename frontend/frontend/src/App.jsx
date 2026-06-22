@@ -121,16 +121,15 @@ function App() {
       </button>
       <div>Session: {sessionId}</div>
       {questionAnswer && <div>{questionAnswer.answer}</div>}
-      {questionAnswer && (
-        <ul>
-          {questionAnswer.sources.map((item) => (
-            <li>
-              {item.source}
-              <li>page:{item.page}</li>
-            </li>
-          ))}
-        </ul>
-      )}
+
+      <ul>
+        {questionAnswer.sources?.map((item) => (
+          <li>
+            {item.source}
+            <li>page:{item.page}</li>
+          </li>
+        ))}
+      </ul>
     </>
   );
 }

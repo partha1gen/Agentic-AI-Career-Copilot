@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import { tools } from "../agents/tools.js";
 
 import { searchDocuments } from "../tools/ragTool.js";
+import { extractSkills } from "../tools/extractSkillsTool.js";
+import { searchByType } from "../tools/searchByTypeTool.js";
 
 import { findSkillGap } from "../tools/skillGapTool.js";
 
@@ -25,16 +27,22 @@ When user asks about skill gaps:
 
 1. Call searchDocuments
 
-2. Then call findSkillGap
+2. Then call extractSkills to extract skills 
 
-3. Then provide final answer
+3. Then call searchByType for job requirements
+
+4. Then call extractSkills again to extract needed skills from job description
+
+5. Then call findSkillGap to identify missing skills
+
+6. Then provide final answer
 `,
     },
 
     {
       role: "user",
 
-      content: "Analyze candidate against job requirements",
+      content: "What skills are missing for this role?",
     },
   ];
 
