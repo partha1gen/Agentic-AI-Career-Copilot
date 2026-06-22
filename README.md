@@ -1,14 +1,10 @@
-Production RAG Assistant
+AI Career Copilot is an Agentic AI application that combines:
 
-Features:
+Retrieval-Augmented Generation (RAG)
+OpenAI Function Calling
+Tool-Based Agents
+ChromaDB Vector Search
+MongoDB Conversation Memory
+Resume vs Job Description Analysis
 
-- PDF Upload
-- Chunking
-- Embeddings
-- ChromaDB
-- Semantic Search
-- Multi-document Search
-- Redis Cache
-- Conversation Memory
-- Source Attribution
-- Hallucination Prevention
+The system helps candidates analyze resumes against job descriptions, identify skill gaps, generate learning plans, and answer career-related questions using uploaded documents.
