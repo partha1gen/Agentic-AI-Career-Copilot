@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import dotenv from "dotenv";
-
+import ChatModel from "../model/ChatModel.js";
 import { tools } from "./tools.js";
 
 import { searchResume } from "../tools/searchResume.js";
@@ -45,7 +45,9 @@ async function executeTool(toolName, args) {
   }
 }
 
-export async function runAgent(question) {
+export async function runAgent(question, sessionId) {
+  //find existing session and chat records
+  const history = await ChatModel.findExistingSession(sessionId, question);
   const messages = [
     {
       role: "system",
@@ -70,12 +72,8 @@ For skill-gap analysis:
 Then provide final answer.
 `,
     },
-
-    {
-      role: "user",
-      content: question,
-    },
   ];
+  messages.push(...history);
 
   let iteration = 1;
 
@@ -93,6 +91,8 @@ Then provide final answer.
     const message = response.choices[0].message;
 
     if (!message.tool_calls) {
+      //save in db
+      await ChatModel.saveHistoryInDb(message.content);
       return message.content;
     }
     console.log("tool execution order", message.tool_calls);
