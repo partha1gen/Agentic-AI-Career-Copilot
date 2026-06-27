@@ -46,6 +46,36 @@ export const tools = [
   {
     type: "function",
     function: {
+      name: "matchCandidateScore",
+
+      description: "Find match score",
+
+      parameters: {
+        type: "object",
+
+        properties: {
+          candidateSkills: {
+            type: "array",
+            items: {
+              type: "string",
+            },
+          },
+
+          requiredSkills: {
+            type: "array",
+            items: {
+              type: "string",
+            },
+          },
+        },
+
+        required: ["candidateSkills", "requiredSkills"],
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
       name: "findSkillGap",
 
       description: "Find missing skills",

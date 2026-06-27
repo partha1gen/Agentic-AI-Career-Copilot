@@ -8,6 +8,7 @@ import { searchResume } from "../tools/searchResume.js";
 import { searchJobDescription } from "../tools/searchJobDescription.js";
 
 import { extractSkills } from "../tools/extractSkillsTool.js";
+import { matchCandidateScore } from "../tools/matchScoreTool.js";
 
 import { findSkillGap } from "../tools/skillGapTool.js";
 
@@ -33,6 +34,12 @@ async function executeTool(toolName, args) {
 
       case "findSkillGap":
         return await findSkillGap(args.candidateSkills, args.requiredSkills);
+
+      case "matchCandidateScore":
+        return await matchCandidateScore(
+          args.candidateSkills,
+          args.requiredSkills,
+        );
 
       case "generateLearningPlan":
         return await generateLearningPlan(args.missingSkills);
@@ -65,9 +72,11 @@ For skill-gap analysis:
 
 4. extractSkills
 
-5. findSkillGap
+5. matchCandidateScore
 
-6. generateLearningPlan
+6. findSkillGap
+
+7. generateLearningPlan
 
 Then provide final answer.
 `,

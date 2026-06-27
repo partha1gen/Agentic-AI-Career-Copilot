@@ -9,6 +9,7 @@ import { extractSkills } from "../tools/extractSkillsTool.js";
 import { findSkillGap } from "../tools/skillGapTool.js";
 
 import { generateLearningPlan } from "../tools/learningPlanTool.js";
+import { matchCandidateScore } from "../tools/matchScoreTool.js";
 
 dotenv.config();
 
@@ -37,13 +38,19 @@ async function runWorkflow() {
 
   console.log(requiredSkills);
 
-  console.log("\nSTEP 5 : FIND GAP\n");
+  console.log("\nSTEP 5 : FIND Match Score\n");
+
+  const matchScore = await matchCandidateScore(candidateSkills, requiredSkills);
+
+  console.log(matchScore);
+
+  console.log("\nSTEP 6 : FIND GAP\n");
 
   const missingSkills = await findSkillGap(candidateSkills, requiredSkills);
 
   console.log(missingSkills);
 
-  console.log("\nSTEP 6 : LEARNING PLAN\n");
+  console.log("\nSTEP 7: LEARNING PLAN\n");
 
   const learningPlan = await generateLearningPlan(missingSkills);
 
