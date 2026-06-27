@@ -123,7 +123,7 @@ function App() {
       {questionAnswer && <div>{questionAnswer.answer}</div>}
 
       <ul>
-        {questionAnswer.sources?.map((item) => (
+        {questionAnswer?.sources?.map((item) => (
           <li>
             {item.source}
             <li>page:{item.page}</li>

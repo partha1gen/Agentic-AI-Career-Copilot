@@ -1,29 +1,26 @@
 import OpenAI from "openai";
+import { zodTextFormat } from "openai/helpers/zod";
+import { z } from "zod";
 
+const skillAnalysis = z.object({
+  skills: z.array(z.string()),
+});
 const client = new OpenAI({
   apiKey: process.env.openAi_key,
 });
 
 export async function extractSkills(context) {
-  const response = await client.chat.completions.create({
+  const response = await client.responses.parse({
     model: "gpt-5.5",
 
-    response_format: {
-      type: "json_object",
-    },
-
-    messages: [
+    input: [
       {
         role: "system",
 
         content: `
-Extract technical skills.
+Analayze the text. Extract
+1. skills
 
-Return JSON:
-
-{
- "skills":[]
-}
 `,
       },
 
@@ -33,9 +30,11 @@ Return JSON:
         content: context,
       },
     ],
+    text: {
+      format: zodTextFormat(skillAnalysis, "skill_analysis"),
+    },
   });
 
-  const result = JSON.parse(response.choices[0].message.content);
-
+  const result = JSON.parse(response.output_text);
   return result.skills;
 }
