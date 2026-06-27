@@ -20,24 +20,28 @@ const client = new OpenAI({
 });
 
 async function executeTool(toolName, args) {
-  switch (toolName) {
-    case "searchResume":
-      return await searchResume();
+  try {
+    switch (toolName) {
+      case "searchResume":
+        return await searchResume();
 
-    case "searchJobDescription":
-      return await searchJobDescription();
+      case "searchJobDescription":
+        return await searchJobDescription();
 
-    case "extractSkills":
-      return await extractSkills(args.text);
+      case "extractSkills":
+        return await extractSkills(args.text);
 
-    case "findSkillGap":
-      return await findSkillGap(args.candidateSkills, args.requiredSkills);
+      case "findSkillGap":
+        return await findSkillGap(args.candidateSkills, args.requiredSkills);
 
-    case "generateLearningPlan":
-      return await generateLearningPlan(args.missingSkills);
+      case "generateLearningPlan":
+        return await generateLearningPlan(args.missingSkills);
 
-    default:
-      throw new Error(`Unknown Tool ${toolName}`);
+      default:
+        throw new Error(`Unknown Tool ${toolName}`);
+    }
+  } catch (error) {
+    return { error: error.message };
   }
 }
 
