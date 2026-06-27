@@ -55,7 +55,7 @@ async function executeTool(toolName, args) {
 export async function runAgent(question, sessionId) {
   //find existing session and chat records
   const history = await ChatModel.findExistingSession(sessionId, question);
-  const messages = [
+  const input = [
     {
       role: "system",
 
@@ -82,48 +82,45 @@ Then provide final answer.
 `,
     },
   ];
-  messages.push(...history);
+  input.push(...history);
 
   let iteration = 1;
 
   while (true) {
     console.log(`Iteration ${iteration}`);
 
-    const response = await client.chat.completions.create({
+    const response = await client.responses.create({
       model: "gpt-5.5",
 
-      messages,
-
       tools,
+      input,
     });
 
-    const message = response.choices[0].message;
-
-    if (!message.tool_calls) {
+    if (response.output_text) {
       //save in db
-      await ChatModel.saveHistoryInDb(message.content);
-      return message.content;
+      await ChatModel.saveHistoryInDb(response.output_text);
+      return response.output_text;
     }
-    console.log("tool execution order", message.tool_calls);
-    messages.push(message);
+    // Preserve model output for the next turn
+    input.push(...response.output);
 
-    for (const toolCall of message.tool_calls) {
-      const toolName = toolCall.function.name;
+    for (const item of response.output) {
+      let output;
+      if (item.type !== "function_call") continue;
+      const toolName = item.name;
 
-      const args = JSON.parse(toolCall.function.arguments);
+      const args = JSON.parse(item.arguments);
 
       console.log("Tool:", toolName);
 
       const result = await executeTool(toolName, args);
 
       console.log("Result:", result);
-
-      messages.push({
-        role: "tool",
-
-        tool_call_id: toolCall.id,
-
-        content: JSON.stringify(result),
+      // 4. Provide function call results to the model
+      input.push({
+        type: "function_call_output",
+        call_id: item.call_id,
+        output: JSON.stringify(result),
       });
     }
 
