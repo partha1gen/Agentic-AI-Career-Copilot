@@ -103,7 +103,7 @@ Then provide final answer.
     }
     // Preserve model output for the next turn
     input.push(...response.output);
-
+    console.log("input:", input);
     for (const item of response.output) {
       let output;
       if (item.type !== "function_call") continue;

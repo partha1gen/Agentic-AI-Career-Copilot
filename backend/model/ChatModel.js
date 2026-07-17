@@ -5,9 +5,13 @@ class ChatModel {
     this.id = id;
     const session = await Chat.findOne({
       sessionId: id,
-    });
+    }).lean();
 
-    this.history = session?.messages || [];
+    this.history =
+      session?.messages.map((msg) => ({
+        role: msg.role,
+        content: msg.content,
+      })) || [];
     this.history.push({
       role: "user",
       content: queryString,
